@@ -1,0 +1,65 @@
+<blockquote class="blockquote">
+  <h2>My bank Accounts</h2>
+  <footer class="blockquote-footer">
+    Using inline table editing with <i>Angular 8</i> and <i>Java Spring Boot</i>
+  </footer>
+</blockquote>
+
+<div class="grid-table">
+  <div class="thead">
+    <div class="tr">
+        <div class="td">Account No.</div>
+        <div class="td">Account Holder</div>
+        <div class="td">Bank</div>
+        <div class="td">IFSC</div>
+      <div class="td">
+          <button class="btn btn-outline-success" (click)="addBankAccountForm()">
+            <i class="fa fa-plus"></i> New Account
+          </button>
+      </div>
+      <div class="td">
+        <span *ngIf="notification" class="elementToFadeInAndOut">
+          <i class="fas fa-check-circle {{notification.class}}"></i>
+          {{notification.message}}
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="tbody">
+    <form [formGroup]="fg"  class="tr" *ngFor="let fg of bankAccountForms.controls; let i=index; "
+    (submit)="recordSubmit(fg)"
+    >
+      <div class="td">
+        <input  class="form-control" formControlName="accountNumber">
+      </div>
+
+      <div class="td">
+        <input  class="form-control" formControlName="accountHolder">
+      </div>
+
+      <div class="td">
+        <select  class="form-control" formControlName="bankId" >
+          <option value="0">Select</option>
+          <option *ngFor="let item of bankList" value="{{item.bankId}}" >{{item.bankName}}</option>
+        </select>
+      </div>
+
+
+      <div class="td">
+        <input  class="form-control" formControlName="ifsc">
+      </div>
+      <div class="td">
+        <button type="submit" class="btn" [ngClass]="(fg.get('bankAccountId').value == 0? 'btn-success':'btn-outline-dark')"
+        [disabled]="fg.invalid"><i class="far fa-save fa-lg"></i>
+        {{fg.get('bankAccountId').value == 0? 'Submit':'Update'}}
+        </button>
+        <button class="btn btn-light ml" (click)="onDelete(fg.get('bankAccountId').value,i)">
+          <i class="far fa-trash-alt fa-lg text-danger"></i>
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+</div>
